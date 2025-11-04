@@ -1,4 +1,9 @@
-# ThawankiBoxs
+# ThawankiBoxs# ThawankiBoxs
+
+[![Download APK](https://img.shields.io/github/downloads/jorgeandrecastro/thawankiboxs/v1.0.0/total?color=orange&label=APK)](https://github.com/jorgeandrecastro/thawankiboxs/releases/download/v1.0.0/ThawankiBoxs-v1.0.0.apk)
+[![Web App](https://img.shields.io/badge/Web-PWA-blue)](https://thawankiboxs.vercel.app)
+
+App Android 100% offline • Sans pub • Zéro permission
 
 Liste intelligente & 100% offline
 
