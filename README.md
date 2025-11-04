@@ -27,4 +27,4 @@ Play Store
 
 Download APK
 
-🌐 Lien web : https://thawantiboxs.vercel.app/
+🌐 Lien web : https://thawankiboxs.vercel.app/
