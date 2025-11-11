@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Plus, Trash2, Download, TrendingUp, Sparkles, ShoppingBasket, X, Check, BarChart3, Settings, Calendar, Search, Moon, Sun, Minus } from 'lucide-react';
+import { Plus, Trash2, Download, TrendingUp, Sparkles, ShoppingBasket, X, Check, BarChart3, Settings, Calendar, Search, Moon, Sun, Minus, Shield } from 'lucide-react';
 
 // Utilitaires de stockage
 const storage = {
@@ -146,6 +146,138 @@ const Modal = ({ isOpen, onClose, title, children, theme, size = "md" }) => {
   );
 };
 
+// Modal pour le menu de paramètres
+const SettingsModal = ({ isOpen, onClose, theme, onResetTrends, onResetStats, onResetAll }) => {
+  if (!isOpen) return null;
+
+  const handleResetAll = () => {
+    if (window.confirm('Êtes-vous sûr de vouloir tout réinitialiser ? Cette action supprimera définitivement votre liste, vos tendances et vos statistiques.')) {
+      onResetAll();
+      onClose();
+    }
+  };
+  
+  const handleResetTrends = () => {
+    if (window.confirm('Réinitialiser les tendances ? Les données de vos articles les plus ajoutés seront perdues.')) {
+      onResetTrends();
+      onClose();
+    }
+  };
+  
+  const handleResetStats = () => {
+    if (window.confirm('Réinitialiser les statistiques ? Votre historique d\'achats sera effacé.')) {
+      onResetStats();
+      onClose();
+    }
+  };
+
+  const openPrivacyPolicy = () => {
+    window.open('./privacy.html', '_blank');
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+      <div 
+        className={`max-w-md w-full max-h-[90vh] overflow-hidden rounded-3xl ${
+          theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+        } shadow-2xl`}
+      >
+        <div className={`flex items-center justify-between p-6 border-b ${
+          theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+        }`}>
+          <h2 className={`text-xl font-bold ${
+            theme === 'dark' ? 'text-white' : 'text-gray-800'
+          }`}>
+            Paramètres
+          </h2>
+          <button
+            onClick={onClose}
+            className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+              theme === 'dark' 
+                ? 'hover:bg-gray-700 text-gray-400 hover:text-white' 
+                : 'hover:bg-gray-100 text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        <div className="overflow-y-auto max-h-[calc(90vh-140px)] p-6">
+          <div className="space-y-4">
+            {/* Reset tendances */}
+            <button
+              onClick={handleResetTrends}
+              className="w-full text-left px-4 py-4 hover:bg-orange-50 dark:hover:bg-orange-900/20 text-gray-700 dark:text-gray-300 font-medium transition-all flex items-center gap-3 text-sm rounded-xl border-2 border-orange-200 dark:border-orange-800"
+            >
+              <TrendingUp className="w-5 h-5 text-orange-500" />
+              <div className="flex-1">
+                <div className="font-semibold">Reset tendances</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  Effacer les données des articles les plus ajoutés
+                </div>
+              </div>
+            </button>
+            
+            {/* Reset statistiques */}
+            <button
+              onClick={handleResetStats}
+              className="w-full text-left px-4 py-4 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-gray-700 dark:text-gray-300 font-medium transition-all flex items-center gap-3 text-sm rounded-xl border-2 border-blue-200 dark:border-blue-800"
+            >
+              <BarChart3 className="w-5 h-5 text-blue-500" />
+              <div className="flex-1">
+                <div className="font-semibold">Reset statistiques</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  Effacer l'historique des achats
+                </div>
+              </div>
+            </button>
+            
+            {/* POLITIQUE DE CONFIDENTIALITÉ */}
+            <button
+              onClick={openPrivacyPolicy}
+              className="w-full text-left px-4 py-4 hover:bg-green-50 dark:hover:bg-green-900/20 text-gray-700 dark:text-gray-300 font-medium transition-all flex items-center gap-3 text-sm rounded-xl border-2 border-green-200 dark:border-green-800"
+            >
+              <Shield className="w-5 h-5 text-green-500" />
+              <div className="flex-1">
+                <div className="font-semibold">Politique de confidentialité</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  Comment nous protégeons vos données
+                </div>
+              </div>
+            </button>
+            
+            {/* Tout réinitialiser */}
+            <button
+              onClick={handleResetAll}
+              className="w-full text-left px-4 py-4 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 font-semibold transition-all flex items-center gap-3 text-sm rounded-xl border-2 border-red-200 dark:border-red-800"
+            >
+              <Trash2 className="w-5 h-5" />
+              <div className="flex-1">
+                <div className="font-semibold">Tout réinitialiser</div>
+                <div className="text-xs text-red-500 dark:text-red-400 mt-1">
+                  Supprimer toutes les données de l'application
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+        
+        <div className={`flex justify-end p-6 border-t ${
+          theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+        }`}>
+          <button
+            onClick={onClose}
+            className="px-6 py-3 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white font-semibold rounded-xl transition-all transform hover:scale-105 active:scale-95"
+          >
+            Fermer
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Helper pour les emojis de catégorie
 const getCategoryEmoji = (category) => {
   const emojis = {
@@ -211,7 +343,7 @@ const TrendsModalContent = ({ trends, theme }) => {
   );
 };
 
-// Composant pour le contenu de la modal History CORRIGÉ
+// Composant pour le contenu de la modal History
 const HistoryModalContent = ({ purchaseHistory, items, theme }) => {
   // Combiner l'historique avec les articles actuellement cochés
   const currentCheckedItems = items.filter(item => item.checked).map(item => ({
@@ -490,7 +622,7 @@ const StatsModalContent = ({ purchaseHistory, items, theme }) => {
   );
 };
 
-// Animation "Liste terminée" CORRIGÉE
+// Animation "Liste terminée"
 const CompletionAnimation = ({ 
   show, 
   onClose, 
@@ -602,32 +734,10 @@ const CompletionAnimation = ({
   );
 };
 
-// Header avec sélecteur de thème
-const Header = ({ totalItems, checkedItems, onResetTrends, onResetStats, onResetAll, theme, setTheme }) => {
+// Header COMPLET avec menu fonctionnel
+const Header = ({ totalItems, checkedItems, onResetTrends, onResetStats, onResetAll, theme, setTheme, onOpenSettings }) => {
   const progress = totalItems > 0 ? (checkedItems / totalItems) * 100 : 0;
-  const [menuOpen, setMenuOpen] = useState(false);
   
-  const handleResetAll = () => {
-    if (window.confirm('Êtes-vous sûr de vouloir tout réinitialiser ? Cette action supprimera définitivement votre liste, vos tendances et vos statistiques.')) {
-      onResetAll();
-      setMenuOpen(false);
-    }
-  };
-  
-  const handleResetTrends = () => {
-    if (window.confirm('Réinitialiser les tendances ? Les données de vos articles les plus ajoutés seront perdues.')) {
-      onResetTrends();
-      setMenuOpen(false);
-    }
-  };
-  
-  const handleResetStats = () => {
-    if (window.confirm('Réinitialiser les statistiques ? Votre historique d\'achats sera effacé.')) {
-      onResetStats();
-      setMenuOpen(false);
-    }
-  };
-
   const handleThemeChange = (newTheme) => {
     setTheme(newTheme);
     storage.setTheme(newTheme);
@@ -699,42 +809,15 @@ const Header = ({ totalItems, checkedItems, onResetTrends, onResetStats, onReset
             
             <div className="relative">
               <button
-                onClick={() => setMenuOpen(!menuOpen)}
+                onClick={onOpenSettings}
                 className={`p-2 sm:p-3 rounded-xl sm:rounded-2xl transition-all active:scale-95 ${
                   theme === 'dark' 
-                    ? 'bg-gray-700 hover:bg-gray-600' 
-                    : 'bg-white/20 backdrop-blur-sm hover:bg-white/30'
+                    ? 'bg-gray-700 hover:bg-gray-600 text-white' 
+                    : 'bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white'
                 }`}
               >
-                <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                <Settings className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
-              
-              {menuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-48 sm:w-56 bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50">
-                  <button
-                    onClick={handleResetTrends}
-                    className="w-full text-left px-4 py-3 hover:bg-orange-50 dark:hover:bg-orange-900/20 text-gray-700 dark:text-gray-300 font-medium transition-all flex items-center gap-3 text-sm sm:text-base"
-                  >
-                    <TrendingUp className="w-4 h-4 text-orange-500" />
-                    Reset tendances
-                  </button>
-                  <button
-                    onClick={handleResetStats}
-                    className="w-full text-left px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-gray-700 dark:text-gray-300 font-medium transition-all flex items-center gap-3 text-sm sm:text-base"
-                  >
-                    <BarChart3 className="w-4 h-4 text-blue-500" />
-                    Reset statistiques
-                  </button>
-                  <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
-                  <button
-                    onClick={handleResetAll}
-                    className="w-full text-left px-4 py-3 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 font-semibold transition-all flex items-center gap-3 text-sm sm:text-base"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                    Tout réinitialiser
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -749,18 +832,11 @@ const Header = ({ totalItems, checkedItems, onResetTrends, onResetStats, onReset
           </div>
         )}
       </div>
-      
-      {menuOpen && (
-        <div 
-          className="fixed inset-0 z-40"
-          onClick={() => setMenuOpen(false)}
-        />
-      )}
     </div>
   );
 };
 
-// Composant Barre de recherche et tri
+// Barre de recherche et tri
 const SearchAndSort = ({ searchTerm, setSearchTerm, sortBy, setSortBy, sortOrder, setSortOrder, theme }) => (
   <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 mb-4 shadow-lg border border-gray-200 dark:border-gray-700">
     <div className="flex flex-col sm:flex-row gap-4">
@@ -1623,7 +1699,7 @@ const PurchaseStats = ({ purchaseHistory, items, theme, onViewDetails }) => {
         <div>
           <h2 className="text-lg sm:text-xl font-bold">
             Statistiques
-          </h2>
+            </h2>
           <p className="text-white/80 text-xs sm:text-sm">
             {currentCheckedItems.length > 0 ? "Achats actuels + historique" : "Vos habitudes d'achat"}
           </p>
@@ -1717,7 +1793,14 @@ export default function App() {
   const [showTrendsModal, setShowTrendsModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [showStatsModal, setShowStatsModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   
+  // État pour le responsive
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
   // Chargement initial
   useEffect(() => {
     setItems(storage.getItems());
@@ -1733,6 +1816,24 @@ export default function App() {
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
+  
+  // Gestion du redimensionnement
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Déterminer le type d'appareil
+  const isMobile = windowSize.width < 768;
+  const isTablet = windowSize.width >= 768 && windowSize.width < 1024;
+  const isDesktop = windowSize.width >= 1024;
   
   // Animation "Liste terminée"
   useEffect(() => {
@@ -1922,7 +2023,7 @@ export default function App() {
       theme === 'dark' 
         ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-black' 
         : 'bg-gradient-to-br from-orange-50 via-rose-50 to-purple-50'
-    }`}>
+    } ${isMobile ? 'mobile-layout' : isTablet ? 'tablet-layout' : 'desktop-layout'}`}>
       <Header 
         totalItems={totalCount} 
         checkedItems={checkedCount}
@@ -1931,11 +2032,15 @@ export default function App() {
         onResetAll={resetAll}
         theme={theme}
         setTheme={setTheme}
+        onOpenSettings={() => setShowSettingsModal(true)}
       />
       
       <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 pb-8 sm:pb-12">
-        {/* MODIFICATION PRINCIPALE : La liste des courses est maintenant en premier */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className={`grid ${
+          isMobile ? 'grid-cols-1' : 
+          isTablet ? 'grid-cols-1' : 
+          'grid-cols-1 lg:grid-cols-3'
+        } gap-4 sm:gap-6`}>
           {/* Colonne principale avec la liste des courses */}
           <div className="lg:col-span-2">
             {items.length > 0 && (
@@ -2063,6 +2168,15 @@ export default function App() {
           <StatsModalContent purchaseHistory={purchaseHistory} items={items} theme={theme} />
         </div>
       </Modal>
+
+      <SettingsModal 
+        isOpen={showSettingsModal} 
+        onClose={() => setShowSettingsModal(false)}
+        theme={theme}
+        onResetTrends={resetTrends}
+        onResetStats={resetStats}
+        onResetAll={resetAll}
+      />
     </div>
   );
 }

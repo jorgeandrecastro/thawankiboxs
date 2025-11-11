@@ -6,7 +6,13 @@
   "display": "standalone",
   "background_color": "#fff1e5",
   "theme_color": "#f97316",
-  "orientation": "portrait-primary",
+  "orientation": "any",
+  
+  // AJOUTS CRITIQUES POUR ANDROID 15
+  "display_override": ["window-controls-overlay"],
+  "categories": ["shopping", "productivity"],
+  "edge_side_panel": {},
+  
   "icons": [
     {
       "src": "/icon-192.png",

@@ -2,37 +2,40 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     
-    <!-- PWA Essentials -->
+    <!-- PWA Essentials CORRIGÉS -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#f97316" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> <!-- CORRIGÉ -->
     <meta name="apple-mobile-web-app-title" content="Mes Courses" />
+    
+    <!-- AJOUTS POUR ANDROID 15 -->
+    <meta name="full-screen" content="yes" />
+    <meta name="screen-orientation" content="portrait" />
+    <meta name="layout-mode" content="fitscreen" />
     
     <!-- SEO & Play Store -->
     <meta name="description" content="Liste de courses intelligente, 100% offline, sans pub ni tracking." />
     <meta name="keywords" content="liste courses, offline, pwa, gratuit, sans pub, local" />
     <meta name="author" content="Mes Courses" />
 
-    <!-- Icônes (toutes les tailles) -->
+    <!-- Icônes -->
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icon-192.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/icon-192.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/icon-192.png" />
 
-    <!-- Titre -->
     <title>Mes Courses - Liste intelligente & offline</title>
 
-    <!-- Préchargement critique -->
+    <!-- Préchargement -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-    <!-- DNS Prefetch (optionnel mais pro) -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
     <link rel="dns-prefetch" href="//fonts.gstatic.com" />
   </head>
@@ -40,19 +43,16 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
 
-    <!-- Service Worker Registration (robuste) -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js', { scope: '/' })
             .then(reg => {
               console.log('Service Worker registered:', reg.scope);
-              // Auto-update si nouvelle version
               reg.addEventListener('updatefound', () => {
                 const newWorker = reg.installing;
                 newWorker.addEventListener('statechange', () => {
                   if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    // Nouvelle version disponible
                     console.log('New version available');
                   }
                 });
@@ -61,9 +61,15 @@
             .catch(err => console.error('Service Worker registration failed:', err));
         });
       }
+      
+      // CORRECTION POUR ANDROID 15 - Gestion moderne du plein écran
+      if ('windowControlsOverlay' in navigator) {
+        navigator.windowControlsOverlay.addEventListener('geometrychange', (event) => {
+          console.log('Window controls overlay changed:', event);
+        });
+      }
     </script>
 
-    <!-- Fallback si JS désactivé (SEO) -->
     <noscript>
       <div style="text-align:center;padding:2rem;font-family:system-ui;">
         <h1>Mes Courses</h1>

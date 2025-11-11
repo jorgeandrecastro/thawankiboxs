@@ -24,7 +24,11 @@ export default defineConfig({
         display: 'standalone',
         background_color: '#fff7ed',
         theme_color: '#f97316',
-        orientation: 'portrait-primary',
+        orientation: 'any',
+        // AJOUTS POUR ANDROID 15
+        display_override: ["window-controls-overlay"],
+        categories: ["shopping", "productivity"],
+        edge_side_panel: {},
         icons: [
           {
             src: 'icon-192.png',
