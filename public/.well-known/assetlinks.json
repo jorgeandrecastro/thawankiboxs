@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.thawankiboxs.twa",
+      "sha256_cert_fingerprints": [
+        "8D:89:09:F9:3C:EF:34:0D:67:71:1F:D1:AC:E3:12:A4:23:B0:76:39:25:C9:44:D1:62:8E:7F:93:5A:2C:DA:B3"
+      ]
+    }
+  }
+]
