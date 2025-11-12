@@ -17,15 +17,14 @@ export default defineConfig({
         ]
       },
       manifest: {
-        name: 'Mes Courses',
-        short_name: 'Courses',
+        name: 'Thawankibox',
+        short_name: 'Thawankibox',
         description: 'Liste de courses intelligente, 100% offline',
         start_url: '/',
         display: 'standalone',
-        background_color: '#fff7ed',
+        background_color: '#fff1e5',
         theme_color: '#f97316',
         orientation: 'any',
-        // AJOUTS POUR ANDROID 15
         display_override: ["window-controls-overlay"],
         categories: ["shopping", "productivity"],
         edge_side_panel: {},
